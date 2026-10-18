@@ -1,8 +1,8 @@
-
 @extends('layouts.default')
+@vite('resources/css/app.css')
 @section('header')
     <h2>Toto je stránka kontakt</h2>
-    @include('sidemenu')
+   
 @endsection
 @section('maincontent')
 Vítej, {{ Auth::user()->name }}!

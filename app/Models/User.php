@@ -24,7 +24,9 @@ class User extends Authenticatable
     'email',
     'phone',
     'role',
+    'specializace',
     'password',
+    
 ];
 
     /**
@@ -48,4 +50,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function isStaff(): bool
+{
+    return in_array($this->role, ['technik', 'spravce']);
+}
 }

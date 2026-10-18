@@ -1,0 +1,129 @@
+.contact h1 {
+    font-size: 60px;
+}
+
+.contact h2 {
+    font-size: 45px;
+    padding: 15px;
+    margin-left: 15px;
+}
+
+.contactBlok {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 30px;
+    gap: 20px;
+}
+
+/* Společný styl karty */
+.contact-list,
+.contact-list-spravce {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1.6fr 1fr;
+    align-items: center;
+    gap: 1rem 2rem;
+    width: 100%;
+    padding: 1.2rem 2rem;
+    margin: 0;
+    border: 5px solid #ccc;
+    border-radius: 10px;
+    background-color: #1f2a44;
+    color: #b5bdc9;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.contact-list:hover,
+.contact-list-spravce:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+}
+
+.contact-list li,
+.contact-list-spravce li {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 1.3rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.contact-list i,
+.contact-list-spravce i {
+    color: #b5bdc9;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.contact-list a,
+.contact-list-spravce a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.contact-list a:hover,
+.contact-list-spravce a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Jméno */
+.contact-list li.contact-name,
+.contact-list-spravce li.contact-name {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #fff;
+    padding-right: 1.5rem;
+    border-right: 2px solid rgba(181, 189, 201, 0.3);
+}
+
+.contact-name i {
+    font-size: 2.2rem;
+    margin-left: 0;
+}
+
+.contact-unavailable {
+    color: #b5bdc9;
+}
+
+/* Tablet: dva sloupce */
+@media (max-width: 992px) {
+    .contact-list,
+    .contact-list-spravce {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .contact-list li.contact-name,
+    .contact-list-spravce li.contact-name {
+        grid-column: 1 / -1;
+        border-right: none;
+        border-bottom: 2px solid rgba(181, 189, 201, 0.3);
+        padding: 0 0 0.8rem;
+    }
+}
+
+/* Mobil: jeden sloupec */
+@media (max-width: 600px) {
+    .contactBlok {
+        padding: 0 10px;
+    }
+    .contact h2 {
+        padding: 0;
+        margin: 0;
+        justify-self: center;
+    }
+
+    .contact-list,
+    .contact-list-spravce {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .contact-list li,
+    .contact-list-spravce li {
+        font-size: 1.1rem;
+    }
+}

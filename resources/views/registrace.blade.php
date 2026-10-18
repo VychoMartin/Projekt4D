@@ -7,7 +7,7 @@
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
 </head>
-<body>
+<body class="auth">
     
     <div class="container registrace">
 
@@ -30,7 +30,7 @@
         <div class="input-group">
             <label>Heslo</label>
             <div class="password-wrapper">
-        <input type="password" name="password" id="password" placeholder="Minimálně 8 znaků">
+        <input type="password" name="password" id="password" placeholder="Min. 8 znaků">
         <button type="button" class="toggle-password" data-target="password" aria-label="Zobrazit heslo"><i class="bi bi-eye"></i></button>
     </div>
              @error('password')

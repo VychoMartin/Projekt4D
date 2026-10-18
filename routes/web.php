@@ -2,40 +2,28 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
-// Get route příklad
-Route::get('/', function () {
-    return view('prihlaseni');
-})->name('prihlaseni');
+use App\Http\Controllers\HomeController;
 
-//Parametry pomocí kterých se přesměruje na stránku registrace
-/*Route::get('/registrace/{login}/{heslo}', function ($login, $heslo) {
-    return $login . " " . $heslo;
-})->name('registrace');*/
-// Named route příklad
+// Přihlášení je úvodní stránka
+Route::get('/', fn () => view('prihlaseni'))->name('prihlaseni');
+Route::post('/prihlasovani', [UserController::class, 'login'])->name('prihlasovani');
+
+// Registrace
 Route::get('/registrace', [UserController::class, 'create'])->name('registrace');
 Route::post('/registrace', [UserController::class, 'store'])->name('registrace.store');
 
-Route::get('/', function () {
-    return view('prihlaseni');
-})->name('prihlaseni');
+// Kontakt vidí všichni
+Route::view('/contact', 'contact')->name('contact');
 
-Route::post('/prihlasovani', [UserController::class, 'login'])->name('prihlasovani');
-
-Route::post('/odhlaseni', [UserController::class, 'logout'])->name('odhlaseni');
-
+// Jen pro přihlášené
 Route::middleware('auth')->group(function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::post('/odhlaseni', [UserController::class, 'logout'])->name('odhlaseni');
 
-    Route::get('/zkouska', fn () => view('zkouska'))
-        ->name('zkouska');
+    Route::get('/zkouska', fn () => view('zkouska'))->name('zkouska');
 
+    // Jen technik a správce
     Route::middleware('role:spravce,technik')->group(function () {
-        Route::get('/technik', fn () => view('technik.zkouska'))
-            ->name('technik.zkouska');
+        Route::get('/technik', fn () => view('technik.zkouska'))->name('technik.zkouska');
     });
 });
-
-Route::get('/contact', function () {
-return view('contact');
-})->name('contact');
-/* Route::resource('users', UserController::class); */

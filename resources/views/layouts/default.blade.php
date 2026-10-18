@@ -5,20 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     
+    @vite('resources/js/app.js')
 
 </head>
 
-<body>
-<header>
-    <img src="{{asset('images/nota.jpg')}}" alt="">
-   @yield('header') 
- <!--@include('sidemenu')-->
+<body class="app">
+    
+<header>   
+   <nav class="navbar">
+    @include('sidemenu')
+</nav>
+   @yield('header')
 </header>
 <main>
 @yield('maincontent')
 </main>
 <footer>
     @yield('footer')
+    @include('footer')
 </footer>
 </body>
 </html>

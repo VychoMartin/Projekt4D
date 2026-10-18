@@ -9,7 +9,7 @@
 
 </head>
 
-<body>
+<body class="auth">
 
 <div class="container">
 
@@ -36,7 +36,7 @@
         <div style="color:red">{{ $message }}</div>
     @enderror
         </div>
-        <div class="input-group">
+        <div class="pamatovat">
     <label>
         <input type="checkbox" name="remember" value="1"> Pamatovat si mě
     </label>
