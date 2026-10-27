@@ -9,7 +9,7 @@
 
 </head>
 
-<body class="auth">
+<body class="authP">
 
 <div class="container">
 

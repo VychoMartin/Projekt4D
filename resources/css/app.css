@@ -13,8 +13,8 @@
     font-family: Arial, sans-serif;
 }
 
-body.auth {
-    height: 100dvh;
+body.auth, body.authP {
+    min-height: 100dvh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -59,7 +59,7 @@ h1 {
 
 .input-group input {
     width: 100%;
-    min-height: 48px;
+    min-height: 55px;
     font-size: 16px;
 }
 
@@ -282,6 +282,47 @@ input[type="password"]:focus {
     margin-right: 0.3rem;
 }
 
+@media (max-width: 768px) {
+    .footer-contact {
+        margin-bottom: 1.5rem;
+    }
+
+    .contact-list-footer {
+        gap: 0.5rem 1.5rem;
+    }
+   .container {
+        width: 550px;
+        padding: 55px;
+    }
+
+    .container.registrace {
+        width: 650px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    label,
+    .btn,
+    input[type="text"],
+    input[type="password"] {
+        font-size: 18px;
+    }
+
+    .input-group input {
+        min-height: 60px;
+    }
+
+    .btn {
+        min-height: 54px;
+    }
+    .pole{
+        display: block;
+    }
+}
+
+
 @media (max-width: 600px) {
     .footer-bottom {
         flex-direction: column;
@@ -304,10 +345,51 @@ input[type="password"]:focus {
 
     .pole .input-group {
         width: 100%;
-        margin-bottom: 16px;
+        margin-bottom: 14px;
+    }
+    .input-group input {
+        min-height: 60px;
+    }
+
+    body.auth, body.authP {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+    .btn {
+        margin-bottom: 4px;
+    }
+     .navbar {
+        padding: 20px 20px;
+}
+}
+@media (max-width: 400px) {
+    .container,
+    .container.registrace {
+        padding: 15px;
+        border-radius: 14px;
+        width: 100%;
+        max-width: 360px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    label,
+    .btn,
+    input[type="text"],
+    input[type="password"] {
+        font-size: 16px;
+    }
+
+    .input-group input {
+        min-height: 48px;
     }
 
     .btn {
-        margin-bottom: 8px;
+        min-height: 48px;
     }
+    
 }
