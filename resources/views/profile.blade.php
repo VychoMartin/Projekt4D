@@ -51,10 +51,6 @@
         <input id="phone" type="text" name="phone" value="{{ old('phone', $user->phone) }}">
         @error('phone') <span class="error">{{ $message }}</span> @enderror
 
-        @if($user->role !== 'user' && $user->specializace)
-            <p><strong>Specializace:</strong> {{ $user->specializace }}</p>
-        @endif
-
         <button type="submit">Uložit změny</button>
     </form>
 
