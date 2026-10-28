@@ -16,7 +16,6 @@
     gap: 20px;
 }
 
-/* Společný styl karty */
 .contact-list,
 .contact-list-spravce {
     list-style: none;
@@ -70,7 +69,6 @@
     text-decoration: underline;
 }
 
-/* Jméno */
 .contact-list li.contact-name,
 .contact-list-spravce li.contact-name {
     font-size: 1.8rem;
@@ -88,8 +86,35 @@
 .contact-unavailable {
     color: #b5bdc9;
 }
-
-/* Tablet: dva sloupce */
+.profil {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin: 0 auto;
+}
+.profil form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    
+}
+input[type="text"]{
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+   
+}
+.profil button {
+    background-color: #1f2a44;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    cursor: pointer;
+    border-radius: 8px;
+}
 @media (max-width: 992px) {
     .contact-list,
     .contact-list-spravce {
@@ -105,7 +130,6 @@
     }
 }
 
-/* Mobil: jeden sloupec */
 @media (max-width: 600px) {
     .contactBlok {
         padding: 0 10px;

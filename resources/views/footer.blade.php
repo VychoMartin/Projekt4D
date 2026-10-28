@@ -48,7 +48,7 @@ try {
 
     <div class="row footer-bottom">
         <a href="#"><i class="bi bi-file-earmark-text"></i> Terms of Service</a>
-        <p>&copy; 2026 Moje Firma. Všechna práva vyhrazena.</p>
+        <p>&copy; 2026 Hlášení Poruch. Všechna práva vyhrazena.</p>
         <a href="#"><i class="bi bi-shield-lock"></i> Privacy Policy</a>
     </div>
 </footer>
