@@ -118,12 +118,33 @@ class UserController extends Controller
     }
 
     public function update(Request $request, User $user)
-    {
-        //
+{
+    if ($user->id === auth()->id()) {
+        return back()->with('error', 'Nemůžete upravit vlastní roli.');
     }
 
-    public function destroy(User $user)
-    {
-        //
+    $data = $request->validate([
+        'role'         => ['required', 'in:spravce,technik,user'],
+        'specializace' => ['nullable', 'string', 'max:100', 'required_if:role,technik'],
+    ]);
+
+    if ($data['role'] !== 'technik') {
+        $data['specializace'] = null;
     }
+
+    $user->update($data);
+
+    return back()->with('success', 'Uživatel byl upraven.');
+}
+
+    public function destroy(User $user)
+{
+    if ($user->id === auth()->id()) {
+        return back()->with('error', 'Nemůžete smazat vlastní účet.');
+    }
+
+    $user->delete();
+
+    return back()->with('success', 'Uživatel byl odstraněn.');
+}
 }

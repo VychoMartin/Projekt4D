@@ -1,5 +1,5 @@
 <?php
-
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
@@ -31,4 +31,18 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:spravce,technik')->group(function () {
         Route::get('/technik', fn () => view('technik.zkouska'))->name('technik.zkouska');
     });
+    Route::middleware(['auth', 'role:spravce'])->group(function () {
+    Route::get('/spravaUzivatelu', function () {
+        return view('sprava-uzivatelu', [
+            'users' => User::orderByRaw("FIELD(role, 'spravce', 'technik', 'user')")
+                ->orderBy('surname')
+                ->orderBy('name')
+                ->get(),
+        ]);
+    })->name('sprava-uzivatelu');
+    
+    Route::delete('sprava-uzivatelu/{user}', [UserController::class, 'destroy'])
+    ->name('sprava-uzivatelu.destroy');
+    Route::put('/sprava-uzivatelu/{user}', [UserController::class, 'update'])->name('sprava-uzivatelu.update');
+});
 });

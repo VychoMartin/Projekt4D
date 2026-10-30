@@ -54,4 +54,13 @@ class User extends Authenticatable
 {
     return in_array($this->role, ['technik', 'spravce']);
 }
+public function getRoleLabelAttribute(): string
+{
+    return match ($this->role) {
+        'spravce' => 'Správce',
+        'technik' => 'Technik',
+        'user'    => 'Uživatel',
+        default   => ucfirst($this->role),
+    };
+}
 }

@@ -1,3 +1,17 @@
+html {
+    height: 100%;
+}
+
+body.app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+main {
+    flex: 1;
+}
 .contact h1 {
     font-size: 60px;
 }
@@ -174,6 +188,112 @@ input[type="password"] {
 
 .toast-alert.hide {
     opacity: 0;
+}
+.users-table-wrap {
+    overflow-x: auto;           /* na mobilu se tabulka posouvá do stran */
+    padding: 0 30px;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #1f2a44;
+    color: #b5bdc9;
+    border: 5px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.users-table th,
+.users-table td {
+    padding: 0.9rem 1.2rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(181, 189, 201, 0.2);
+}
+
+.users-table th {
+    color: #fff;
+    font-weight: 600;
+}
+
+.users-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.users-table a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.users-table a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Štítky rolí */
+.role {
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    border: 1px solid #b5bdc9;
+}
+.role-spravce { color: #fff; border-color: #fff; }
+.role-technik { color: #60a5fa; border-color: #60a5fa; }
+.btn-delete {
+    background: transparent;
+    color: #f87171;
+    border: 1px solid #f87171;
+    border-radius: 6px;
+    padding: 0.3rem 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.btn-delete:hover {
+    background: #f87171;
+    color: #1f2a44;
+}
+.role-select,
+.specializace-input {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.95rem;
+}
+.role-select{
+    color: #fff;
+}
+.specializace-input{
+    color: black;
+}
+
+.role-select option {
+    color: #000; /* aby byly možnosti čitelné v rozbalené nabídce */
+}
+
+.btn-save {
+    background-color: transparent;
+    color: #4da3ff;
+    border: 1px solid #4da3ff;
+    border-radius: 6px;
+    padding: 0.35rem 0.9rem;
+    cursor: pointer;
+}
+
+.btn-save:hover {
+    background-color: #4da3ff;
+    color: #1f2a44;
+}
+
+.akce {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.akce form {
+    margin: 0;
 }
 @media (max-width: 992px) {
     .contact-list,

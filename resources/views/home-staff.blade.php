@@ -1,5 +1,6 @@
 @extends('layouts.default')
 @vite('resources/css/app.css')
+@vite('resources/css/main.css')
 @section('header')
    
 @endsection

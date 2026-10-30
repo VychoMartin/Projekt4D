@@ -15,9 +15,12 @@ class CheckRole
      */
    public function handle(Request $request, Closure $next, string ...$roles)
 {
-    if (!in_array($request->user()->role, $roles)) {
-        abort(403, 'Nemáte oprávnění.');
-    }
+    $user = $request->user();
+
+    if (! in_array($request->user()->role, $roles)) {
+    return redirect()->route('home')
+        ->with('error', 'K této stránce už nemáte oprávnění.');
+}
 
     return $next($request);
 }

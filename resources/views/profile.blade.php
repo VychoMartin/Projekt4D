@@ -21,8 +21,8 @@
 <script>
     const toast = document.getElementById('toast');
     if (toast) {
-        setTimeout(() => toast.classList.add('hide'), 3000);   // po 3 s zmizí
-        setTimeout(() => toast.remove(), 3500);                // a odstraní se z DOM
+        setTimeout(() => toast.classList.add('hide'), 3000);   
+        setTimeout(() => toast.remove(), 3500);                
     }
 </script>
     

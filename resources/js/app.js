@@ -12,3 +12,16 @@ icon.className = show ? 'bi bi-eye-slash' : 'bi bi-eye';
         });
     });
 });
+document.querySelectorAll('.role-select').forEach(select => {
+    const row = select.closest('tr');
+    const input = row.querySelector('.specializace-input');
+
+    const toggle = () => {
+        const isTechnik = select.value === 'technik';
+        input.style.visibility = isTechnik ? 'visible' : 'hidden';
+        input.disabled = !isTechnik;
+    };
+
+    select.addEventListener('change', toggle);
+    toggle();
+});
