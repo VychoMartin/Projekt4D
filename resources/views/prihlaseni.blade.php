@@ -8,7 +8,19 @@
     @vite('resources/js/app.js')
 
 </head>
+@php
+    $toast = null;
+    if (session('success'))            $toast = ['success', session('success')];
+@endphp
 
+@if($toast)
+    <div class="toast toast-{{ $toast[0] }}" id="toast" role="alert">
+        <i class="bi {{ $toast[0] === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill' }}"></i>
+        <span>{{ $toast[1] }}</span>
+        <button type="button" class="toast-close" aria-label="Zavřít">&times;</button>
+        <div class="toast-progress"></div>
+    </div>
+@endif
 <body class="authP">
 
 <div class="container">

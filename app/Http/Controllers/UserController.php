@@ -32,7 +32,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // Role zde záměrně chybí, aby ji uživatel nemohl poslat
         $validated = $request->validate([
             'name'     => ['required', 'string', 'max:255'],
             'surname'  => ['required', 'string', 'max:255'],
@@ -64,7 +63,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('prihlaseni')
-            ->with('success', 'Registrace byla úspěšná. Nyní se můžete přihlásit.');
+            ->with('success', 'Registrace byla úspěšná.');
     }
 
     /**

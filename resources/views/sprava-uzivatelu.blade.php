@@ -9,18 +9,7 @@
 
 @section('maincontent')
 <h1>Správa uživatelů</h1>
-@if(session('success') || session('success_delete'))
-    <div class="toast-alert" id="toast">
-        {{ session('success') ?? session('success_delete') }}
-    </div>
-@endif
-<script>
-    const toast = document.getElementById('toast');
-    if (toast) {
-        setTimeout(() => toast.classList.add('hide'), 3000);   
-        setTimeout(() => toast.remove(), 3500);                
-    }
-</script>
+
     <div class="users-table-wrap">
     <table class="users-table">
         <thead>
@@ -57,7 +46,7 @@
                 <input type="text" name="specializace" form="form-{{ $user->id }}"
                        class="specializace-input"
                        value="{{ $user->specializace }}"
-                       placeholder="Specializace">
+                       placeholder="Specializace" required>
             </td>
 
             <td>
@@ -69,7 +58,8 @@
                     </form>
 
                     <form method="POST" action="{{ route('sprava-uzivatelu.destroy', $user) }}"
-                          onsubmit="return confirm('Opravdu smazat uživatele {{ $user->name }} {{ $user->surname }}?');">
+                         data-confirm="Opravdu chcete smazat uživatele {{ $user->name }} {{ $user->surname }}?"
+                         data-confirm-button="Smazat účet">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn-delete">

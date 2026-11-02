@@ -18,6 +18,7 @@ Route::view('/contact', 'contact')->name('contact');
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/heslo', [ProfileController::class, 'updatePassword'])->name('profile.heslo');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
 // Jen pro přihlášené

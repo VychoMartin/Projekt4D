@@ -52,11 +52,35 @@ class ProfileController extends Controller
             'password.confirmed'                => 'Hesla se neshodují.',
         ]);
 
-        // Pokud máš v modelu casts 'password' => 'hashed', Hash::make() vynech
         Auth::user()->update([
             'password' => Hash::make($request->password),
         ]);
 
         return back()->with('success_heslo', 'Heslo bylo změněno.');
     }
+    public function destroy(Request $request)
+{
+    $request->validate(
+    [
+        'password' => ['required', 'current_password'],
+    ],
+    [
+        'password.required'         => 'Zadejte své heslo pro potvrzení smazání účtu.',
+        'password.current_password' => 'Zadané heslo není správné.',
+    ]
+);
+    $user = $request->user();
+
+    if ($user->role === 'spravce' && User::where('role', 'spravce')->count() <= 1) {
+        return back()->with('error', 'Jste poslední správce, účet nelze smazat.');
+    }
+
+    Auth::logout();
+    $user->delete();
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect('/');
+}
 }

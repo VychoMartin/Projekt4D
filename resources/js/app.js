@@ -25,3 +25,61 @@ document.querySelectorAll('.role-select').forEach(select => {
     select.addEventListener('change', toggle);
     toggle();
 });
+
+   document.addEventListener('DOMContentLoaded', () => {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+
+    let autoClose;
+
+    const close = () => {
+        clearTimeout(autoClose);              
+        toast.classList.add('hide');           
+        setTimeout(() => toast.remove(), 400); 
+    };
+
+    toast.querySelector('.toast-close').addEventListener('click', close);
+    autoClose = setTimeout(close, 4000);       
+});
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('confirm-modal');
+    if (!modal) return;
+
+    const text = modal.querySelector('#confirm-text');
+    const okBtn = modal.querySelector('.modal-confirm');
+    const cancelBtn = modal.querySelector('.modal-cancel');
+    let pendingForm = null;
+
+    const open = (form) => {
+        pendingForm = form;
+        text.textContent = form.dataset.confirm;
+        okBtn.textContent = form.dataset.confirmButton || 'Potvrdit';
+        modal.hidden = false;
+        cancelBtn.focus();
+    };
+
+    const close = () => {
+        modal.hidden = true;
+        pendingForm = null;
+    };
+
+    // zachytí odeslání všech formulářů s data-confirm
+    document.addEventListener('submit', (e) => {
+        const form = e.target;
+        if (form.dataset.confirm && !form.dataset.confirmed) {
+            e.preventDefault();
+            open(form);
+        }
+    });
+
+    okBtn.addEventListener('click', () => {
+        if (!pendingForm) return;
+        pendingForm.dataset.confirmed = '1';
+        pendingForm.submit();
+    });
+
+    cancelBtn.addEventListener('click', close);
+    modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+});

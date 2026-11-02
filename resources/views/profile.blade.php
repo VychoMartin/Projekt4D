@@ -12,20 +12,6 @@
 <h1>Můj profil</h1>
 <div class="profil">
     
-
-    @if(session('success') || session('success_heslo'))
-    <div class="toast-alert" id="toast">
-        {{ session('success') ?? session('success_heslo') }}
-    </div>
-@endif
-<script>
-    const toast = document.getElementById('toast');
-    if (toast) {
-        setTimeout(() => toast.classList.add('hide'), 3000);   
-        setTimeout(() => toast.remove(), 3500);                
-    }
-</script>
-    
     <form method="POST" action="{{ route('profile.update') }}">
         @csrf
         @method('PUT')
@@ -79,6 +65,26 @@
     </div>
 
         <button type="submit">Změnit heslo</button>
+    </form>
+</div>
+<div class="smazatUcet">
+    <h2>Smazání účtu</h2>
+    <p>Smazáním účtu přijdete o přístup do aplikace. Tuto akci nelze vrátit zpět.</p>
+    <form method="POST" action="{{ route('profile.destroy') }}"
+      data-confirm="Opravdu chcete trvale smazat svůj účet?"
+      data-confirm-button="Smazat účet">
+
+        @csrf
+        @method('DELETE')
+
+        <label for="delete_password">Pro potvrzení zadejte heslo</label>
+        <input type="password" name="password" id="delete_password">
+        @error('password') <span class="error" style="color: red;">{{ $message }}</span> @enderror
+
+        <button type="submit" class="btn-delete">
+            <i class="bi bi-trash"></i> Smazat účet
+        </button>
+         
     </form>
 </div>
 @endsection
