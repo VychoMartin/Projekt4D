@@ -1,54 +1,56 @@
-<?php
-try {
-    $pdo = new PDO(
-        'mysql:host=localhost;dbname=Projekt4D;charset=utf8mb4',
-        'root',
-        '',
-        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-    );
+@php
+    $spravce = \App\Models\User::where('role', 'spravce')
+        ->orderBy('surname')
+        ->orderBy('name')
+        ->first();
+@endphp
 
-    $stmt = $pdo->prepare('SELECT name, surname, email, phone FROM users WHERE role = :role LIMIT 1');
-    $stmt->execute(['role' => 'spravce']);
-    $spravce = $stmt->fetch(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    $spravce = null;
-}
-?>
-<footer class="footer">
-    <div class="footer-contact">
-        <h3 class="footer-title">
-            <i class="bi bi-headset"></i> Kontakt na správce
+<div class="mt-12 bg-[#1f2a44] px-6 pb-4 pt-10 text-sm text-gray-300">
+
+    {{-- Kontakt na správce --}}
+    <div class="mx-auto mb-8 max-w-2xl text-center">
+        <h3 class="mb-5 text-lg font-semibold text-white">
+            <i class="bi bi-headset mr-1.5 text-blue-400"></i> Kontakt na správce
         </h3>
 
-        <?php if ($spravce): ?>
-            <ul class="contact-list-footer">
-                <li>
+        @if($spravce)
+            <ul class="flex flex-wrap justify-center gap-x-8 gap-y-3">
+                <li class="flex items-center gap-2">
                     <i class="bi bi-person-circle"></i>
-                    <span><?= htmlspecialchars($spravce['name'] . ' ' . $spravce['surname']) ?></span>
+                    <span>{{ $spravce->name }} {{ $spravce->surname }}</span>
                 </li>
-                <li>
+                <li class="flex items-center gap-2">
                     <i class="bi bi-telephone-fill"></i>
-                    <a href="tel:<?= htmlspecialchars(preg_replace('/\s+/', '', $spravce['phone'])) ?>">
-                        <?= htmlspecialchars($spravce['phone']) ?>
+                    <a href="tel:{{ preg_replace('/\s+/', '', $spravce->phone) }}"
+                       class="transition hover:text-white hover:underline">
+                        {{ $spravce->phone }}
                     </a>
                 </li>
-                <li>
+                <li class="flex items-center gap-2">
                     <i class="bi bi-envelope-fill"></i>
-                    <a href="mailto:<?= htmlspecialchars($spravce['email']) ?>">
-                        <?= htmlspecialchars($spravce['email']) ?>
+                    <a href="mailto:{{ $spravce->email }}"
+                       class="transition hover:text-white hover:underline">
+                        {{ $spravce->email }}
                     </a>
                 </li>
             </ul>
-        <?php else: ?>
-            <p class="contact-unavailable">
+        @else
+            <p class="text-gray-400">
                 <i class="bi bi-exclamation-circle"></i> Kontakt je momentálně nedostupný.
             </p>
-        <?php endif; ?>
+        @endif
     </div>
 
-    <div class="row footer-bottom">
-        <a href="#"><i class="bi bi-file-earmark-text"></i> Terms of Service</a>
-        <p>&copy; 2026 Hlášení Poruch. Všechna práva vyhrazena.</p>
-        <a href="#"><i class="bi bi-shield-lock"></i> Privacy Policy</a>
+    {{-- Spodní lišta --}}
+    <div class="flex flex-col items-center gap-3 border-t border-gray-700 pt-4 text-xs sm:flex-row sm:justify-between sm:text-sm">
+        <a href="#" class="inline-flex items-center gap-1.5 transition hover:text-white hover:underline">
+            <i class="bi bi-file-earmark-text"></i> Terms of Service
+        </a>
+
+        <p class="text-center text-gray-400">&copy; 2026 Hlášení Poruch. Všechna práva vyhrazena.</p>
+
+        <a href="#" class="inline-flex items-center gap-1.5 transition hover:text-white hover:underline">
+            <i class="bi bi-shield-lock"></i> Privacy Policy
+        </a>
     </div>
-</footer>
+</div>
