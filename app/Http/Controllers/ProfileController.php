@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -41,34 +41,32 @@ class ProfileController extends Controller
     }
 
     public function updatePassword(Request $request)
-    {
-        $request->validate([
-            'current_password' => ['required', 'current_password'],
-            'password'         => ['required', 'confirmed', Password::defaults()],
-        ], [
-            'current_password.required'         => 'Zadejte současné heslo.',
-            'current_password.current_password' => 'Současné heslo není správné.',
-            'password.required'                 => 'Zadejte nové heslo.',
-            'password.confirmed'                => 'Hesla se neshodují.',
-        ]);
+{
+    $request->validateWithBag('updatePassword', [
+        'current_password' => ['required', 'current_password'],
+        'password'         => ['required', 'confirmed', Password::defaults()],
+    ], [
+        'current_password.required'         => 'Zadejte současné heslo.',
+        'current_password.current_password' => 'Současné heslo není správné.',
+        'password.required'                 => 'Zadejte nové heslo.',
+        'password.confirmed'                => 'Hesla se neshodují.',
+    ]);
 
-        Auth::user()->update([
-            'password' => Hash::make($request->password),
-        ]);
+    Auth::user()->update([
+        'password' => Hash::make($request->password),
+    ]);
 
-        return back()->with('success_heslo', 'Heslo bylo změněno.');
-    }
+    return back()->with('success_heslo', 'Heslo bylo změněno.');
+}
     public function destroy(Request $request)
 {
-    $request->validate(
-    [
+    $request->validateWithBag('deleteAccount', [
         'password' => ['required', 'current_password'],
-    ],
-    [
+    ], [
         'password.required'         => 'Zadejte své heslo pro potvrzení smazání účtu.',
         'password.current_password' => 'Zadané heslo není správné.',
-    ]
-);
+    ]);
+
     $user = $request->user();
 
     if ($user->role === 'spravce' && User::where('role', 'spravce')->count() <= 1) {
