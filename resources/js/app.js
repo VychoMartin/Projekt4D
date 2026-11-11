@@ -1,85 +1,83 @@
 import './bootstrap';
-document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.toggle-password').forEach(function (btn) {
-        btn.addEventListener('click', function () {
+ 
+document.addEventListener('DOMContentLoaded', () => {
+ 
+    /* ---------- Zobrazení / skrytí hesla ---------- */
+    document.querySelectorAll('.toggle-password').forEach((btn) => {
+        btn.addEventListener('click', () => {
             const input = document.getElementById(btn.dataset.target);
+            if (!input) return;
+ 
             const show = input.type === 'password';
-
             input.type = show ? 'text' : 'password';
+ 
             const icon = btn.querySelector('i');
-icon.className = show ? 'bi bi-eye-slash' : 'bi bi-eye';
+            if (icon) icon.className = show ? 'bi bi-eye-slash' : 'bi bi-eye';
+ 
             btn.setAttribute('aria-label', show ? 'Skrýt heslo' : 'Zobrazit heslo');
         });
     });
-});
-document.querySelectorAll('.role-select').forEach(select => {
-    const row = select.closest('tr');
-    const input = row.querySelector('.specializace-input');
-
-    const toggle = () => {
-        const isTechnik = select.value === 'technik';
-        input.style.visibility = isTechnik ? 'visible' : 'hidden';
-        input.disabled = !isTechnik;
-    };
-
-    select.addEventListener('change', toggle);
-    toggle();
-});
-
-   document.addEventListener('DOMContentLoaded', () => {
+ 
+    /* ---------- Toast ---------- */
     const toast = document.getElementById('toast');
-    if (!toast) return;
-
-    let autoClose;
-
-    const close = () => {
-        clearTimeout(autoClose);              
-        toast.classList.add('hide');           
-        setTimeout(() => toast.remove(), 400); 
-    };
-
-    toast.querySelector('.toast-close').addEventListener('click', close);
-    autoClose = setTimeout(close, 4000);       
-});
-
-    document.addEventListener('DOMContentLoaded', () => {
+    if (toast) {
+        let timer;
+ 
+        const closeToast = () => {
+            clearTimeout(timer);
+            toast.dataset.closing = 'true';          // spustí animaci zmizení
+            setTimeout(() => toast.remove(), 400);   // odstranění z DOM
+        };
+ 
+        toast.querySelector('[data-toast-close]')?.addEventListener('click', closeToast);
+        timer = setTimeout(closeToast, 4000);        // automaticky po 4 s
+    }
+ 
+    /* ---------- Potvrzovací okno ---------- */
     const modal = document.getElementById('confirm-modal');
-    if (!modal) return;
-
-    const text = modal.querySelector('#confirm-text');
-    const okBtn = modal.querySelector('.modal-confirm');
-    const cancelBtn = modal.querySelector('.modal-cancel');
-    let pendingForm = null;
-
-    const open = (form) => {
-        pendingForm = form;
-        text.textContent = form.dataset.confirm;
-        okBtn.textContent = form.dataset.confirmButton || 'Potvrdit';
-        modal.hidden = false;
-        cancelBtn.focus();
-    };
-
-    const close = () => {
-        modal.hidden = true;
-        pendingForm = null;
-    };
-
-    // zachytí odeslání všech formulářů s data-confirm
-    document.addEventListener('submit', (e) => {
-        const form = e.target;
-        if (form.dataset.confirm && !form.dataset.confirmed) {
-            e.preventDefault();
-            open(form);
-        }
-    });
-
-    okBtn.addEventListener('click', () => {
-        if (!pendingForm) return;
-        pendingForm.dataset.confirmed = '1';
-        pendingForm.submit();
-    });
-
-    cancelBtn.addEventListener('click', close);
-    modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    if (modal) {
+        const title     = modal.querySelector('#confirm-title');
+        const text      = modal.querySelector('#confirm-text');
+        const okBtn     = modal.querySelector('[data-confirm-ok]');
+        const cancelBtn = modal.querySelector('[data-confirm-cancel]');
+        let pendingForm = null;
+ 
+        const openModal = (form) => {
+            pendingForm = form;
+            title.textContent = form.dataset.confirmTitle || 'Opravdu to chcete udělat?';
+            text.textContent  = form.dataset.confirm;
+            okBtn.textContent = form.dataset.confirmButton || 'Potvrdit';
+            modal.hidden = false;
+            document.body.classList.add('overflow-hidden');
+            cancelBtn.focus();
+        };
+ 
+        const closeModal = () => {
+            modal.hidden = true;
+            pendingForm = null;
+            document.body.classList.remove('overflow-hidden');
+        };
+ 
+        // zachytí odeslání všech formulářů s data-confirm
+        document.addEventListener('submit', (e) => {
+            const form = e.target;
+            if (form.dataset.confirm && !form.dataset.confirmed) {
+                e.preventDefault();
+                openModal(form);
+            }
+        });
+ 
+        okBtn.addEventListener('click', () => {
+            if (!pendingForm) return;
+            pendingForm.dataset.confirmed = '1';
+            pendingForm.submit();
+        });
+ 
+        cancelBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.hidden) closeModal();
+        });
+    }
 });
+ 

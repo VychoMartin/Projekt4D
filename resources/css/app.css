@@ -1,274 +1,75 @@
 @import 'tailwindcss';
 @import "bootstrap-icons/font/bootstrap-icons.css";
-
+ 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
-
+ 
+/* Animace pro toast a potvrzovací okno (třídy animate-toast-in atd.) */
+@theme {
+    --animate-toast-in: toast-in 0.35s ease-out;
+    --animate-toast-progress: toast-progress 4s linear forwards;
+    --animate-fade-in: fade-in 0.2s ease-out;
+    --animate-modal-pop: modal-pop 0.25s ease-out;
+ 
+    @keyframes toast-in {
+        from { opacity: 0; transform: translateX(40px); }
+        to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes toast-progress {
+        from { transform: scaleX(1); }
+        to   { transform: scaleX(0); }
+    }
+    @keyframes fade-in {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+    @keyframes modal-pop {
+        from { opacity: 0; transform: scale(0.92); }
+        to   { opacity: 1; transform: scale(1); }
+    }
+}
+ 
 /*
- * Základní styly jsou ve vrstvě "base", aby je Tailwind utility (text-4xl,
- * px-6, mb-4 ...) mohly přebít. Pravidla mimo vrstvy mají vždy přednost před
- * utilitami. Reset margin/padding/box-sizing dělá Tailwind (preflight) sám.
+ * Základní styly jsou ve vrstvě "base", aby je Tailwind utility mohly přebít.
+ * Pravidla mimo vrstvy mají vždy přednost před utilitami.
+ * Reset margin/padding/box-sizing dělá Tailwind (preflight) sám.
  */
 @layer base {
     * {
         font-family: Arial, sans-serif;
     }
-
+ 
     h1 {
         text-align: center;
         color: #333;
         font-size: 30px;
     }
-
+ 
     @media (max-width: 768px) {
         h1 { font-size: 36px; }
     }
-
+ 
     @media (max-width: 400px) {
         h1 { font-size: 28px; }
     }
 }
-
-body.auth {
-    min-height: 100dvh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #4facfe, #00f2fe);
-    padding: 10px;
-}
-
+ 
 body.app {
     min-height: 100dvh;
     background: #f4f6fb;
 }
-
-.container {
-    background: white;
-    padding: 30px 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    width: 400px;
-    margin-inline: auto;
-}
-
-.container.registrace {
-    width: 500px;
-}
-
-.row {
-    display: flex;
-    justify-content: space-evenly;
-    gap: 10%;
-    margin-top: 10px;
-}
-
-.input-group {
-    margin-bottom: 15px;
-}
-
-.input-group input {
-    width: 100%;
-    min-height: 40px;
-    font-size: 16px;
-}
-
-.pole {
-    display: flex;
-    gap: 1rem;
-}
-
-.pole input {
-    flex: 1;
-}
-
-/* Základní styly formulářů ve vrstvě "base", aby je mohly přebít
-   třídy .form-label / .form-input i Tailwind utility. */
-@layer base {
-    label {
-        display: block;
-        margin-bottom: 6px;
-        color: #555;
-        font-weight: bold;
-    }
-
-    input[type="text"],
-    input[type="password"] {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        transition: 0.3s;
-    }
-
-    input[type="text"]:focus,
-    input[type="password"]:focus {
-        border-color: #4facfe;
-        outline: none;
-        box-shadow: 0 0 8px rgba(79, 172, 254, 0.5);
-    }
-}
-
-/* ---------- Toast ---------- */
-.toast {
-    position: fixed;
-    top: 1.25rem;
-    right: 1.25rem;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    min-width: 280px;
-    max-width: 420px;
-    padding: 0.9rem 1.1rem;
-    border-radius: 10px;
-    background: #fff;
-    color: #1f2a44;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    border-left: 5px solid;
-    overflow: hidden;
-    animation: toast-in 0.35s ease;
-}
-
-.toast-success { border-color: #2fb36d; }
-.toast-success > i { color: #2fb36d; font-size: 1.3rem; }
-
-.toast-error { border-color: #e5484d; }
-.toast-error > i { color: #e5484d; font-size: 1.3rem; }
-
-.toast span { flex: 1; }
-
-.toast-close {
-    background: none;
-    border: none;
-    font-size: 1.4rem;
-    line-height: 1;
-    color: #888;
-    cursor: pointer;
-    padding: 0;
-}
-
-.toast-close:hover { color: #000; }
-
-/* ubíhající proužek času */
-.toast-progress {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 3px;
-    width: 100%;
-    background: currentColor;
-    opacity: 0.25;
-    pointer-events: none;
-    animation: toast-progress 4s linear forwards;
-}
-
-.toast.hide {
-    opacity: 0;
-    transform: translateX(30px);
-    transition: opacity 0.4s, transform 0.4s;
-}
-
-@keyframes toast-in {
-    from { opacity: 0; transform: translateX(40px); }
-    to   { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes toast-progress {
-    from { width: 100%; }
-    to   { width: 0; }
-}
-
-/* ---------- Potvrzovací okno ---------- */
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(15, 23, 42, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    animation: modal-fade 0.2s ease;
-}
-
-.modal-overlay[hidden] {
-    display: none;
-}
-
-.modal {
-    background: #fff;
-    color: #1f2a44;
-    border-radius: 14px;
-    padding: 1.75rem;
-    width: min(420px, 92vw);
-    text-align: center;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-    animation: modal-pop 0.25s ease;
-}
-
-.modal-icon {
-    font-size: 2.5rem;
-    color: #e5484d;
-    margin-bottom: 0.5rem;
-}
-
-.modal h3 {
-    margin: 0 0 0.5rem;
-}
-
-.modal p {
-    margin: 0 0 1.5rem;
-    color: #555;
-}
-
-.modal-actions {
-    display: flex;
-    gap: 0.75rem;
-    justify-content: center;
-}
-
-.modal-actions button {
-    padding: 0.55rem 1.4rem;
-    border-radius: 8px;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-}
-
-.modal-cancel {
-    background: #e8ebf3;
-    color: #1f2a44;
-}
-
-.modal-confirm {
-    background: #e5484d;
-    color: #fff;
-}
-
-.modal-confirm:hover { background: #c93a3f; }
-.modal-cancel:hover  { background: #d5dae8; }
-
-@keyframes modal-fade {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-
-@keyframes modal-pop {
-    from { opacity: 0; transform: scale(0.92); }
-    to   { opacity: 1; transform: scale(1); }
-}
-
-/* ---------- Formuláře ---------- */
+ 
+/* ---------- Pole s heslem (přihlášení, registrace, profil) ---------- */
 .password-wrapper {
     position: relative;
 }
-
+ 
 .password-wrapper input {
     padding-right: 44px;
 }
-
+ 
 .toggle-password {
     position: absolute;
     right: 10px;
@@ -284,41 +85,7 @@ body.app {
     cursor: pointer;
     font-size: 18px;
 }
-
-.btn {
-    width: 100%;
-    min-height: 48px;
-    padding: 9px;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-    margin-top: 10px;
-}
-
-.btn-primary {
-    background: #4facfe;
-    color: white;
-}
-
-.btn-primary:hover {
-    background: #2196f3;
-}
-
-.btn-secondary {
-    background: #f1f1f1;
-    color: #333;
-}
-
-.btn-secondary:hover {
-    background: #ddd;
-}
-
-.login-link {
-    text-decoration: none;
-}
-
+ 
 /* ---------- Navigace ---------- */
 .navbar {
     display: flex;
@@ -328,18 +95,18 @@ body.app {
     padding: 12px 20px;
     background: #1f2a44;
 }
-
+ 
 .navbar a {
     display: flex;
     color: #fff;
     text-decoration: none;
     padding: 8px 12px;
 }
-
+ 
 .navbar form {
     margin-left: auto;
 }
-
+ 
 .navbar button {
     background: transparent;
     color: #fff;
@@ -348,106 +115,19 @@ body.app {
     padding: 8px 14px;
     cursor: pointer;
 }
-
+ 
 .navbar i {
     font-size: 1.2rem;
     margin-right: 5px;
 }
-
-/* ---------- Responzivita ---------- */
-@media (max-width: 768px) {
-    .container {
-        width: 550px;
-    }
-
-    .container.registrace {
-        width: 650px;
-    }
-
-    label,
-    .btn,
-    input[type="text"],
-    input[type="password"] {
-        font-size: 18px;
-    }
-
-    .input-group input {
-        min-height: 60px;
-    }
-
-    .btn {
-        min-height: 54px;
-    }
-
-    .pole {
-        display: block;
-    }
-}
-
+ 
 @media (max-width: 480px) {
-    .container,
-    .container.registrace {
-        padding: 20px;
-        border-radius: 16px;
-        width: 100%;
-        max-width: 420px;
-    }
-
-    .pole {
-        display: block;
-    }
-
-    .pole .input-group {
-        width: 100%;
-        margin-bottom: 14px;
-    }
-
-    .input-group input {
-        min-height: 60px;
-    }
-
-    body.auth {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-    }
-
-    .btn {
-        margin-bottom: 4px;
-    }
-
     .navbar {
         padding: 20px;
     }
 }
-
-@media (max-width: 400px) {
-    .container,
-    .container.registrace {
-        padding: 15px;
-        border-radius: 14px;
-        width: 100%;
-        max-width: 360px;
-    }
-
-    label,
-    .btn,
-    input[type="text"],
-    input[type="password"] {
-        font-size: 16px;
-    }
-
-    .input-group input {
-        min-height: 48px;
-    }
-
-    .btn {
-        min-height: 48px;
-    }
-}
-
-/* ---------- Komponenty (profil a další formuláře) ---------- */
+ 
+/* ---------- Komponenty (formuláře) ---------- */
 @layer components {
     .panel {
         @apply rounded-2xl bg-white p-6 shadow-md sm:p-8;
